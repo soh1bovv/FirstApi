@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
@@ -20,3 +21,10 @@ async def get_item (id: int) -> dict:
     raise HTTPException(status_code=404, detail='News not found')
 
 
+@app.get('/search')
+async def search(news_id:Optional[int]=None) -> dict:
+    if news_id:
+        for new in news:
+            if new['id'] == news_id:
+                return new
+            raise HTTPException(status_code=404, detail='News not found')
